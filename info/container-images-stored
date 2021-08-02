@@ -9,7 +9,7 @@ if oc auth can-i debug node >/dev/null 2>&1; then
     # See https://medium.com/@robert.i.sandor/getting-started-with-parallelization-in-bash-e114f4353691
     ((i=i%PARALLELJOBS)); ((i++==0)) && wait
     (
-      oc debug --image="${OCDEBUGIMAGE}" "${node}" -- chroot /host sh -c "crictl images -o json" 2>/dev/null | jq -r .images[].repoTags[]
+      oc debug --to-namespace=openshift-healthchecks --image="${OCDEBUGIMAGE}" "${node}" -- chroot /host sh -c "crictl images -o json" 2>/dev/null | jq -r .images[].repoTags[]
     ) &
   done | sort -u
   wait
